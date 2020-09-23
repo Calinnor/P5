@@ -166,11 +166,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
                 long id = (long) (Math.random() * 50000);
 
 
-                Task task = new Task(
-                        id,
-                        taskProject.getId(),
-                        taskName,
-                        new Date().getTime()
+                Task task = new Task(taskProject.getId(),taskName,new Date().getTime()
                 );
 
                 addTask(task);

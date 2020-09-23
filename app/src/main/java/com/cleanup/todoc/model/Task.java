@@ -1,7 +1,13 @@
 package com.cleanup.todoc.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import java.util.Comparator;
 
@@ -10,15 +16,22 @@ import java.util.Comparator;
  *
  * @author Gaëtan HERFRAY
  */
+@Entity(foreignKeys = @ForeignKey (
+        entity = Project.class,
+        parentColumns = "id",
+        childColumns = "projectId"))
 public class Task {
     /**
      * The unique identifier of the task
      */
+    @PrimaryKey (autoGenerate = true)
     private long id;
 
     /**
      * The unique identifier of the project associated to the task
      */
+    @ColumnInfo (name = "projectId",
+                 index = true)
     private long projectId;
 
     /**
@@ -42,6 +55,10 @@ public class Task {
      * @param name              the name of the task to set
      * @param creationTimestamp the timestamp when the task has been created to set
      */
+
+    //Constructor used for tests. Need a constant id
+    @Ignore
+    @VisibleForTesting
     public Task(long id, long projectId, @NonNull String name, long creationTimestamp) {
         this.setId(id);
         this.setProjectId(projectId);
@@ -49,6 +66,15 @@ public class Task {
         this.setCreationTimestamp(creationTimestamp);
     }
 
+    //Constructor used in app because id is autogenerate (MainActivity). Needed to modify in it
+    public Task(long projectId, @NonNull String name, long creationTimestamp) {
+        this.setProjectId(projectId);
+        this.setName(name);
+        this.setCreationTimestamp(creationTimestamp);
+    }
+
+
+    //----GETTERS---
     /**
      * Returns the unique identifier of the task.
      *
@@ -56,24 +82,6 @@ public class Task {
      */
     public long getId() {
         return id;
-    }
-
-    /**
-     * Sets the unique identifier of the task.
-     *
-     * @param id the unique idenifier of the task to set
-     */
-    private void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * Sets the unique identifier of the project associated to the task.
-     *
-     * @param projectId the unique identifier of the project associated to the task to set
-     */
-    private void setProjectId(long projectId) {
-        this.projectId = projectId;
     }
 
     /**
@@ -96,6 +104,25 @@ public class Task {
         return name;
     }
 
+    //----SETTERS----
+    /**
+     * Sets the unique identifier of the task.
+     *
+     * @param id the unique idenifier of the task to set
+     */
+    private void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * Sets the unique identifier of the project associated to the task.
+     *
+     * @param projectId the unique identifier of the project associated to the task to set
+     */
+    private void setProjectId(long projectId) {
+        this.projectId = projectId;
+    }
+
     /**
      * Sets the name of the task.
      *
@@ -114,6 +141,7 @@ public class Task {
         this.creationTimestamp = creationTimestamp;
     }
 
+    //-----COMPARATORS-----
     /**
      * Comparator to sort task from A to Z
      */
