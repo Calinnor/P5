@@ -57,7 +57,11 @@ public class ProjectDaoTest {
     private static Project DEMO_1_PROJECT = new Project(PROJECT_ID_1, "Projet Tartampion", 0xFFEADAD1);
     private static Project FALSE_DEMO_PROJECT_WITH_ID_1 = new Project(PROJECT_ID_1, "Projet Lucidia", 0xFFB4CDBA);
 
-
+    /**
+     * At first time search with :
+     * @Query("SELECT * FROM Project")
+     *     LiveData<Project> getProjects();
+     */
 //    @Test
 //    public void insertProjectWithSuccess() {
 //        this.database.projectDao().createProject(DEMO_1_PROJECT);
@@ -73,6 +77,11 @@ public class ProjectDaoTest {
 //        assertEquals(project.getColor(), DEMO_1_PROJECT.getColor());
 //    }
 
+    /**
+     * In a second time search with
+     * @Query("SELECT * FROM Project")
+     *     LiveData<List<Project>> getProjects();
+     */
     @Test
     public void insertOneProjectAndGetProjects () throws InterruptedException
     {
