@@ -11,8 +11,8 @@ import com.cleanup.todoc.repository.TaskDataRepository;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-class TaskViewModel extends ViewModel {
-    //declare repositorie
+public class TaskViewModel extends ViewModel {
+    //declare repositories
     //declare executor
 
     //create constructor
@@ -23,7 +23,7 @@ class TaskViewModel extends ViewModel {
     private final TaskDataRepository taskDataRepository;
     private final Executor executor;
 
-    TaskViewModel(ProjectDataRepository projectDataRepository, TaskDataRepository taskDataRepository, Executor executor) {
+    public TaskViewModel(ProjectDataRepository projectDataRepository, TaskDataRepository taskDataRepository, Executor executor) {
         this.projectDataRepository = projectDataRepository;
         this.taskDataRepository = taskDataRepository;
         this.executor = executor;
@@ -52,6 +52,8 @@ class TaskViewModel extends ViewModel {
     public LiveData<List<Project>> getProjects() {
         return this.projectDataRepository.getProjects();
     }
+
+    
     //-----Task-----
 
     /**
@@ -74,10 +76,10 @@ class TaskViewModel extends ViewModel {
          * delete task
          * @param task
          */
-        public void deleteTask(Task task) {
-            executor.execute(() ->
-                    this.taskDataRepository.deleteTask(task));
-        }
+    public void deleteTask(Task task) {
+        executor.execute(() ->
+                this.taskDataRepository.deleteTask(task));
+    }
 }
 
 
