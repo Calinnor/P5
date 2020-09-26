@@ -90,7 +90,7 @@ public class ProjectDaoTest {
      */
 
     @Test
-    public void getProjectWhenNoProjectInserted() throws InterruptedException
+    public void getProjectWhenNoProjectInsertedShouldReturnIsEmpty() throws InterruptedException
     {
         List<Project> projects = LiveDataTestUtils.getValue(this.database.projectDao().getProjects());
         assertTrue(projects.isEmpty());
@@ -113,45 +113,16 @@ public class ProjectDaoTest {
         assertEquals(projects.get(0).getColor(), DEMO_1_PROJECT.getColor());
     }
 
-    /**
-     * dont find how test this
-     * @throws InterruptedException
-     */
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void getAProjectOutOfRange() throws InterruptedException {
-        this.database.projectDao().createProject(DEMO_1_PROJECT);
-        List<Project> projects = new ArrayList<>(LiveDataTestUtils.getValue(this.database.projectDao().getProjects()));
-        assertEquals(projects.get(1).getId(), PROJECT_ID_1);
-    }
-
-    @Test
-    public void getCreatedProjectsWithSuccessBetweenThreeCreated() throws InterruptedException {
-        this.database.projectDao().createProject(DEMO_1_PROJECT);
-        this.database.projectDao().createProject(DEMO_2_PROJECT);
-        this.database.projectDao().createProject(DEMO_3_PROJECT);
-        List<Project> projects = new ArrayList<>(LiveDataTestUtils.getValue(this.database.projectDao().getProjects()));
-        assertEquals(projects.size(), 3);
-        assertEquals(projects.get(0).getId(), PROJECT_ID_1);
-        assertEquals(projects.get(0).getName(), DEMO_1_PROJECT.getName());
-        assertEquals(projects.get(0).getColor(), DEMO_1_PROJECT.getColor());
-        assertEquals(projects.get(1).getId(), PROJECT_ID_2);
-        assertEquals(projects.get(1).getName(), DEMO_2_PROJECT.getName());
-        assertEquals(projects.get(1).getColor(), DEMO_2_PROJECT.getColor());
-        assertEquals(projects.get(2).getId(), PROJECT_ID_3);
-        assertEquals(projects.get(2).getName(), DEMO_3_PROJECT.getName());
-        assertEquals(projects.get(2).getColor(), DEMO_3_PROJECT.getColor());
-    }
-
-    @Test
-    public void getCreatedProjectsWithNoSuccessBetweenThreeCreated() throws InterruptedException {
-        this.database.projectDao().createProject(DEMO_1_PROJECT);
-        this.database.projectDao().createProject(DEMO_2_PROJECT);
-        this.database.projectDao().createProject(DEMO_3_PROJECT);
-        List<Project> projects = new ArrayList<>(LiveDataTestUtils.getValue(this.database.projectDao().getProjects()));
-        assertNotEquals(projects.get(0).getName(), DEMO_3_PROJECT.getName());
-        assertNotEquals(projects.get(1).getId(), DEMO_1_PROJECT.getId());
-        assertNotEquals(projects.get(2).getColor(), DEMO_2_PROJECT.getColor());
-    }
+//    /**
+//     * not here but in repository
+//     * @throws InterruptedException
+//     */
+//    @Test(expected = IndexOutOfBoundsException.class)
+//    public void getAProjectOutOfRange() throws InterruptedException {
+//        this.database.projectDao().createProject(DEMO_1_PROJECT);
+//        List<Project> projects = new ArrayList<>(LiveDataTestUtils.getValue(this.database.projectDao().getProjects()));
+//        assertEquals(projects.get(1).getId(), PROJECT_ID_1);
+//    }
 
     /**
      * dont find how test this

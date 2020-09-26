@@ -10,6 +10,9 @@ import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -18,6 +21,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
@@ -29,7 +33,9 @@ public class TaskDaoTest
     private static Project PROJECT_DEMO = new Project(1, "Tartampion", 0xFFEADAD1);
     private static long PROJECT_DEMO_ID = PROJECT_DEMO.getId();
     private static Task TASK_DEMO_ONE = new Task(1, PROJECT_DEMO_ID, "test1", 10);
+    private static Task TASK_ONE_FAKE = new Task(1, PROJECT_DEMO_ID, "test2", 100);
     private static Task TASK_DEMO_TWO = new Task(2, PROJECT_DEMO_ID, "test2", 100);
+    private static Task TASK_DEMO_THREE = new Task(3, PROJECT_DEMO_ID, "test1", 10);
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
@@ -46,7 +52,7 @@ public class TaskDaoTest
     }
 
     @Test
-    public void getTasksWhenNoTaskInserted() throws InterruptedException
+    public void getTasksWhenNoTaskInsertedShouldReturnIsEmpty() throws InterruptedException
     {
         List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         assertTrue(tasks.isEmpty());
@@ -66,19 +72,6 @@ public class TaskDaoTest
     }
 
     @Test
-    public void insertTwoTaskWithSuccess() throws InterruptedException
-    {
-        List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
-        assertEquals(tasks.size(), 0);
-
-        this.database.projectDao().createProject(PROJECT_DEMO);
-        this.database.taskDao().insertTask(TASK_DEMO_ONE);
-        this.database.taskDao().insertTask(TASK_DEMO_TWO);
-        tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
-        assertEquals(tasks.size(), 2);
-    }
-
-    @Test
     public void getTasksWithSuccess() throws InterruptedException
     {
         List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
@@ -95,18 +88,44 @@ public class TaskDaoTest
         assertTrue(tasks.get(0).getCreationTimestamp() != tasks.get(1).getCreationTimestamp() && tasks.get(0).getCreationTimestamp() == 10);
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void getATaskOutOfRange() throws InterruptedException
-    {
+    @Test
+    public void tasksCanHaveSameValuesIfIdIsDifferent() throws InterruptedException {
         List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         assertEquals(tasks.size(), 0);
-
         this.database.projectDao().createProject(PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_DEMO_ONE);
-
+        this.database.taskDao().insertTask(TASK_DEMO_THREE);
         tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
-        assertEquals("test2", tasks.get(1).getName());
+        assertEquals(tasks.size(), 2);
+        assertEquals("test1", tasks.get(0).getName());
+        assertEquals("test1", tasks.get(1).getName());
+        assertNotEquals(tasks.get(0).getId(), tasks.get(1).getId());
     }
+
+    @Test
+    public void differentTasksCannotHaveSameId() throws InterruptedException {
+        List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
+        assertEquals(tasks.size(), 0);
+        this.database.projectDao().createProject(PROJECT_DEMO);
+        this.database.taskDao().insertTask(TASK_ONE_FAKE);
+        this.database.taskDao().insertTask(TASK_DEMO_ONE);
+        tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
+        assertEquals(tasks.size(), 1);
+        assertEquals("test1", tasks.get(0).getName());
+    }
+
+//    @Test(expected = IndexOutOfBoundsException.class) //not here but in repository may find a 'dont find task' and not a out
+//    public void getATaskOutOfRange() throws InterruptedException
+//    {
+//        List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
+//        assertEquals(tasks.size(), 0);
+//
+//        this.database.projectDao().createProject(PROJECT_DEMO);
+//        this.database.taskDao().insertTask(TASK_DEMO_ONE);
+//
+//        tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
+//        assertEquals("test2", tasks.get(1).getName());
+//    }
 
     @Test
     public void deleteTaskWithSuccess() throws InterruptedException
