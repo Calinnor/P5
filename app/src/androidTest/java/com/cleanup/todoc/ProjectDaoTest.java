@@ -7,11 +7,9 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.cleanup.todoc.database.database.TodocDatabase;
 import com.cleanup.todoc.model.Project;
-import com.cleanup.todoc.model.Task;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ComparisonFailure;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;

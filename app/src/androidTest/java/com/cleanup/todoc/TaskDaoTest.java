@@ -10,7 +10,6 @@ import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -36,15 +35,13 @@ public class TaskDaoTest
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     @Before
-    public void initDb() throws Exception
-    {
+    public void initDb() {
         this.database = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(), TodocDatabase.class)
                 .allowMainThreadQueries().build();
     }
 
     @After
-    public void closeDb() throws Exception
-    {
+    public void closeDb() {
         this.database.close();
     }
 
