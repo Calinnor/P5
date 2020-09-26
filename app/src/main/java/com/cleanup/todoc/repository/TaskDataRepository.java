@@ -7,7 +7,7 @@ import com.cleanup.todoc.model.Task;
 
 import java.util.List;
 
-class TaskDataRepository {
+public class TaskDataRepository {
     //declare TaskDao
     //create constructor
     //implement TaskDao methods
@@ -28,7 +28,7 @@ class TaskDataRepository {
     /**
      * read a task from TaskDao
      */
-    LiveData <List<Task>> getTasks(){
+    public LiveData <List<Task>> getTasks(){
         return this.taskDao.getTasks();
     }
 

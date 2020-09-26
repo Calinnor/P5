@@ -7,7 +7,7 @@ import com.cleanup.todoc.model.Project;
 
 import java.util.List;
 
-class ProjectDataRepository {
+public class ProjectDataRepository {
     //declare Dao
     //constructor
     //methods
@@ -31,7 +31,7 @@ class ProjectDataRepository {
      * read projects method from ProjectDao
      * @return
      */
-    LiveData<List<Project>> getProjects(){
+    public LiveData<List<Project>> getProjects(){
         return this.projectDao.getProjects();
     }
 }
