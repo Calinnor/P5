@@ -67,6 +67,14 @@ public class Task {
     }
 
     //Constructor used in app because id is autogenerate (MainActivity). Needed to modify in it
+    //TODO determine what constructor is the best
+
+//    public Task(long projectId, @NonNull String name, long creationTimestamp) {
+//        this.projectId = projectId;
+//        this.name = name;
+//        this.creationTimestamp = creationTimestamp;
+//    }
+
     public Task(long projectId, @NonNull String name, long creationTimestamp) {
         this.setProjectId(projectId);
         this.setName(name);
@@ -76,8 +84,6 @@ public class Task {
 
     //----GETTERS---
     /**
-     * Returns the unique identifier of the task.
-     *
      * @return the unique identifier of the task
      */
     public long getId() {
@@ -85,8 +91,6 @@ public class Task {
     }
 
     /**
-     * Returns the project associated to the task.
-     *
      * @return the project associated to the task
      */
     @Nullable
@@ -95,8 +99,6 @@ public class Task {
     }
 
     /**
-     * Returns the name of the task.
-     *
      * @return the name of the task
      */
     @NonNull
@@ -104,13 +106,29 @@ public class Task {
         return name;
     }
 
+    /**
+     * @return the identifier of the project's task
+     */
+    public long getProjectId() {
+        return projectId;
+    }
+
+    /**
+     * @return the timestamp when the task has been created.
+     */
+    public long getCreationTimestamp() {
+        return creationTimestamp;
+    }
+
+
+
     //----SETTERS----
     /**
      * Sets the unique identifier of the task.
      *
      * @param id the unique idenifier of the task to set
      */
-    private void setId(long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
