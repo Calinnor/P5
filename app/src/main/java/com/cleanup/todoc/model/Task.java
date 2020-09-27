@@ -37,8 +37,8 @@ public class Task {
     /**
      * The name of the task
      */
-    // Suppress warning because setName is called in constructor
-    @SuppressWarnings("NullableProblems")
+    // Suppress warning because setName is called in constructor beware suppress annotations make crash
+    //@SuppressWarnings("NullableProblems")
     @NonNull
     private String name;
 
@@ -57,29 +57,39 @@ public class Task {
      */
 
     //Constructor used for tests. Need a constant id
+//    @Ignore
+//    @VisibleForTesting
+//    public Task(long id, long projectId, @NonNull String name, long creationTimestamp) {
+//        this.setId(id);
+//        this.setProjectId(projectId);
+//        this.setName(name);
+//        this.setCreationTimestamp(creationTimestamp);
+//    }
+
     @Ignore
     @VisibleForTesting
     public Task(long id, long projectId, @NonNull String name, long creationTimestamp) {
-        this.setId(id);
-        this.setProjectId(projectId);
-        this.setName(name);
-        this.setCreationTimestamp(creationTimestamp);
+        this.id = id;
+        this.projectId = projectId;
+        this.name = name;
+        this.creationTimestamp = creationTimestamp;
     }
+
 
     //Constructor used in app because id is autogenerate (MainActivity). Needed to modify in it
     //TODO determine what constructor is the best
 
-//    public Task(long projectId, @NonNull String name, long creationTimestamp) {
-//        this.projectId = projectId;
-//        this.name = name;
-//        this.creationTimestamp = creationTimestamp;
-//    }
-
     public Task(long projectId, @NonNull String name, long creationTimestamp) {
-        this.setProjectId(projectId);
-        this.setName(name);
-        this.setCreationTimestamp(creationTimestamp);
+        this.projectId = projectId;
+        this.name = name;
+        this.creationTimestamp = creationTimestamp;
     }
+
+//    public Task(long projectId, @NonNull String name, long creationTimestamp) {
+//        this.setProjectId(projectId);
+//        this.setName(name);
+//        this.setCreationTimestamp(creationTimestamp);
+//    }
 
 
     //----GETTERS---
@@ -130,33 +140,6 @@ public class Task {
      */
     public void setId(long id) {
         this.id = id;
-    }
-
-    /**
-     * Sets the unique identifier of the project associated to the task.
-     *
-     * @param projectId the unique identifier of the project associated to the task to set
-     */
-    private void setProjectId(long projectId) {
-        this.projectId = projectId;
-    }
-
-    /**
-     * Sets the name of the task.
-     *
-     * @param name the name of the task to set
-     */
-    private void setName(@NonNull String name) {
-        this.name = name;
-    }
-
-    /**
-     * Sets the timestamp when the task has been created.
-     *
-     * @param creationTimestamp the timestamp when the task has been created to set
-     */
-    private void setCreationTimestamp(long creationTimestamp) {
-        this.creationTimestamp = creationTimestamp;
     }
 
     //-----COMPARATORS-----

@@ -3,9 +3,7 @@ package com.cleanup.todoc.ui.viewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
-import com.cleanup.todoc.repository.ProjectDataRepository;
 import com.cleanup.todoc.repository.TaskDataRepository;
 
 import java.util.List;
@@ -19,40 +17,13 @@ public class TaskViewModel extends ViewModel {
 
     //add Project and task methods
 
-    private final ProjectDataRepository projectDataRepository;
     private final TaskDataRepository taskDataRepository;
     private final Executor executor;
 
-    public TaskViewModel(ProjectDataRepository projectDataRepository, TaskDataRepository taskDataRepository, Executor executor) {
-        this.projectDataRepository = projectDataRepository;
+    public TaskViewModel(TaskDataRepository taskDataRepository, Executor executor) {
         this.taskDataRepository = taskDataRepository;
         this.executor = executor;
     }
-
-
-    //-----Project-----
-
-    /**
-     * create a project method from ProjectDao
-     *
-     * @param project
-     */
-    public void createProject(Project project) {
-        executor.execute(() -> {
-            this.projectDataRepository.createProject(project);
-        });
-    }
-
-    /**
-     * read projects method from ProjectDao
-     * dont forget to put Livedata public
-     *
-     * @return
-     */
-    public LiveData<List<Project>> getProjects() {
-        return this.projectDataRepository.getProjects();
-    }
-
     
     //-----Task-----
 
@@ -60,9 +31,7 @@ public class TaskViewModel extends ViewModel {
      * create a task from TaskDao
      */
     public void insertTask(Task task) {
-        executor.execute(() -> {
-            this.taskDataRepository.insertTask(task);
-        });
+        executor.execute(() -> this.taskDataRepository.insertTask(task));
     }
 
     /**
@@ -74,7 +43,7 @@ public class TaskViewModel extends ViewModel {
 
         /**
          * delete task
-         * @param task
+         * @param task from TaskDao
          */
     public void deleteTask(Task task) {
         executor.execute(() ->

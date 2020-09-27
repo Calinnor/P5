@@ -9,7 +9,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.cleanup.todoc.database.dao.ProjectDao;
 import com.cleanup.todoc.database.dao.TaskDao;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
@@ -21,7 +20,7 @@ public abstract class TodocDatabase extends RoomDatabase {
 
     //daos: beware dao are interface, they need to have param "()"...so it's why abstract !
     //allows to use daos methods by database
-    public abstract ProjectDao projectDao();
+    //public abstract ProjectDao projectDao();
     public abstract TaskDao taskDao();
 
     //TodocDatabase unique instance

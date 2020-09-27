@@ -27,7 +27,7 @@ public interface TaskDao {
 
     /**
      * delete task
-     * @param taskId
+     * @param taskId for deleting selected task
      */
     @Query("DELETE FROM Task WHERE id = :taskId")
     void deleteTask(long taskId);

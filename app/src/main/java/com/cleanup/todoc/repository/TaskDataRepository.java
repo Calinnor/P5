@@ -34,7 +34,7 @@ public class TaskDataRepository {
 
     /**
      * delete task
-     * @param task
+     * @param task method from TaskDao
      */
     public void deleteTask(Task task) {
         this.taskDao.deleteTask(task.getId());
