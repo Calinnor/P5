@@ -1,5 +1,6 @@
 package com.cleanup.todoc.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,12 +19,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.cleanup.todoc.R;
+import com.cleanup.todoc.injections.Injection;
+import com.cleanup.todoc.injections.ViewModelFactory;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
+import com.cleanup.todoc.ui.viewModel.TaskViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Home activity of the application which is displayed when the user opens the app.</p>
@@ -32,6 +37,13 @@ import java.util.Date;
  * @author Gaëtan HERFRAY
  */
 public class MainActivity extends AppCompatActivity implements TasksAdapter.DeleteTaskListener {
+
+    //-----for data-----
+    //---1---
+    private TaskViewModel taskViewModel;
+    //----> go to step 2 line 332
+
+
     /**
      * List of all projects available in the application
      */
@@ -76,16 +88,12 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * The RecyclerView which displays the list of tasks
      */
     // Suppress warning is safe because variable is initialized in onCreate
-    @SuppressWarnings("NullableProblems")
-    @NonNull
-    private RecyclerView listTasks;
+    private RecyclerView recyclerViewListTasks;
 
     /**
      * The TextView displaying the empty state
      */
     // Suppress warning is safe because variable is initialized in onCreate
-    @SuppressWarnings("NullableProblems")
-    @NonNull
     private TextView lblNoTasks;
 
     @Override
@@ -94,18 +102,26 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
         setContentView(R.layout.activity_main);
 
-        listTasks = findViewById(R.id.list_tasks);
+        recyclerViewListTasks = findViewById(R.id.list_tasks);
         lblNoTasks = findViewById(R.id.lbl_no_task);
 
-        listTasks.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        listTasks.setAdapter(adapter);
+        /*
+        thoses 2 lines were first implementation. Put them in configRecyclerView method line 373
+        recyclerViewListTasks.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerViewListTasks.setAdapter(adapter);
+        */
 
-        findViewById(R.id.fab_add_task).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showAddTaskDialog();
-            }
-        });
+        /**
+         * ---7---
+         * configure ViewModel, RecyclerView and get tasks from database
+         */
+        this.configureViewModel();
+        this.configureRecyclerView();
+
+        //get tasks from database
+        this.getTasks();
+
+        findViewById(R.id.fab_add_task).setOnClickListener(view -> showAddTaskDialog());
     }
 
     @Override
@@ -128,16 +144,20 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             sortMethod = SortMethod.RECENT_FIRST;
         }
 
-        updateTasks();
+        //---4.2---then 4.3 line 156
+        updateTasks(tasks);
 
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onDeleteTask(Task task) {
-        tasks.remove(task);
-        updateTasks();
+        //tasks.remove(task); ---6.1---> go to 6.2 line 225
+        this.deleteTask(task);
+        //---4.3---then 4.4 line 227
+        updateTasks(tasks);
     }
+
 
     /**
      * Called when the user clicks on the positive button of the Create Task Dialog.
@@ -163,8 +183,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             // If both project and name of the task have been set
             else if (taskProject != null) {
                 // TODO: Replace this by id of persisted task
-                long id = (long) (Math.random() * 50000);
-
+                //long id = (long) (Math.random() * 50000);
 
                 Task task = new Task(taskProject.getId(),taskName,new Date().getTime()
                 );
@@ -204,20 +223,27 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * @param task the task to be added to the list
      */
     private void addTask(@NonNull Task task) {
-        tasks.add(task);
-        updateTasks();
+        //tasks.add(task); ---6.2---> go to step 7 line 115 (onCreate)
+        this.insertTask(task);
+        //---4.4---modify updateTasks() with param tasks: updateTasks(tasks) ---> go to step 5 line 368
+        updateTasks(tasks);
     }
 
     /**
      * Updates the list of tasks in the UI
      */
-    private void updateTasks() {
+
+//    below method created by ide because need a List<Task> in argument
+//    private void updateTasks(List<Task> tasks) {
+//    }
+    //---4.1 then 4.2 line 146
+    private void updateTasks(List<Task> tasks) {
         if (tasks.size() == 0) {
             lblNoTasks.setVisibility(View.VISIBLE);
-            listTasks.setVisibility(View.GONE);
+            recyclerViewListTasks.setVisibility(View.GONE);
         } else {
             lblNoTasks.setVisibility(View.GONE);
-            listTasks.setVisibility(View.VISIBLE);
+            recyclerViewListTasks.setVisibility(View.VISIBLE);
             switch (sortMethod) {
                 case ALPHABETICAL:
                     Collections.sort(tasks, new Task.TaskAZComparator());
@@ -236,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             adapter.updateTasks(tasks);
         }
     }
+    //---> go to 5 line 381
 
     /**
      * Returns the dialog allowing the user to create a new task.
@@ -249,32 +276,19 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         alertBuilder.setTitle(R.string.add_task);
         alertBuilder.setView(R.layout.dialog_add_task);
         alertBuilder.setPositiveButton(R.string.add, null);
-        alertBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                dialogEditText = null;
-                dialogSpinner = null;
-                dialog = null;
-            }
+        alertBuilder.setOnDismissListener(dialogInterface -> {
+            dialogEditText = null;
+            dialogSpinner = null;
+            dialog = null;
         });
 
         dialog = alertBuilder.create();
 
         // This instead of listener to positive button in order to avoid automatic dismiss
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+        dialog.setOnShowListener(dialogInterface -> {
 
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-
-                Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                button.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View view) {
-                        onPositiveButtonClick(dialog);
-                    }
-                });
-            }
+            Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            button.setOnClickListener(view -> onPositiveButtonClick(dialog));
         });
 
         return dialog;
@@ -316,4 +330,49 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
          */
         NONE
     }
+
+    //---2---
+    /**
+     * configure viewmodel
+     */
+    private void configureViewModel() {
+        ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(this);
+        this.taskViewModel = ViewModelProviders.of(this, mViewModelFactory).get(TaskViewModel.class);
+    }
+    //----> go to step 3 line 343
+
+
+    //---3---
+    //---implement methods for task---
+    /**
+     * create a task
+     */
+    private void insertTask(Task task){
+        this.taskViewModel.insertTask(task);
+    }
+
+    /**
+     * read tasks
+     */
+    private void getTasks(){
+        this.taskViewModel.getTasks().observe(this, this::updateTasks);
+        //---> go to 4---may then modify updateTasks on line 238 then 146, 156, 227 because getTasks have a List<Task>> in argument
+    }
+
+    /**
+     * delete a task
+     */
+    private void deleteTask(Task task){
+        this.taskViewModel.deleteTask(task);
+    }
+
+    //---5---
+    /**
+     * configure recyclerview
+     */
+    private void configureRecyclerView(){
+        recyclerViewListTasks.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerViewListTasks.setAdapter(adapter);
+    }
+    //---> go to step 6: may now update delete and add task methods with data values (replacing mock values) on lines 154, 225
 }

@@ -51,24 +51,12 @@ public class TaskDaoTest
         this.database.close();
     }
 
+    //-----getTasks-----
     @Test
     public void getTasksWhenNoTaskInsertedShouldReturnIsEmpty() throws InterruptedException
     {
         List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         assertTrue(tasks.isEmpty());
-    }
-
-    @Test
-    public void insertOneTaskWithSuccess() throws InterruptedException
-    {
-        List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
-        assertEquals(tasks.size(), 0);
-
-        this.database.projectDao().createProject(PROJECT_DEMO);
-        this.database.taskDao().insertTask(TASK_DEMO_ONE);
-
-        tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
-        assertEquals(tasks.size(), 1);
     }
 
     @Test
@@ -88,6 +76,21 @@ public class TaskDaoTest
         assertTrue(tasks.get(0).getCreationTimestamp() != tasks.get(1).getCreationTimestamp() && tasks.get(0).getCreationTimestamp() == 10);
     }
 
+    //-----insertTask-----
+
+    @Test
+    public void insertOneTaskWithSuccess() throws InterruptedException
+    {
+        List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
+        assertEquals(tasks.size(), 0);
+
+        this.database.projectDao().createProject(PROJECT_DEMO);
+        this.database.taskDao().insertTask(TASK_DEMO_ONE);
+
+        tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
+        assertEquals(tasks.size(), 1);
+    }
+
     @Test
     public void tasksCanHaveSameValuesIfIdIsDifferent() throws InterruptedException {
         List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
@@ -97,8 +100,7 @@ public class TaskDaoTest
         this.database.taskDao().insertTask(TASK_DEMO_THREE);
         tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         assertEquals(tasks.size(), 2);
-        assertEquals("test1", tasks.get(0).getName());
-        assertEquals("test1", tasks.get(1).getName());
+        assertEquals(tasks.get(0).getName(), tasks.get(1).getName());
         assertNotEquals(tasks.get(0).getId(), tasks.get(1).getId());
     }
 
@@ -127,6 +129,9 @@ public class TaskDaoTest
 //        assertEquals("test2", tasks.get(1).getName());
 //    }
 
+
+    //-----deleteTask-----
+
     @Test
     public void deleteTaskWithSuccess() throws InterruptedException
     {
@@ -139,18 +144,18 @@ public class TaskDaoTest
         assertEquals(tasks.size(), 0);
     }
 
-
     @Test
-    public void insertTasksAndDeleteTheSecond() throws InterruptedException
+    public void insertTwoTasksAndDeleteTheSecondWithSuccess() throws InterruptedException
     {
         this.database.projectDao().createProject(PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_DEMO_ONE);
         this.database.taskDao().insertTask(TASK_DEMO_TWO);
         List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         assertEquals(tasks.size(), 2);
-        this.database.taskDao().deleteTask(TASK_DEMO_TWO.getId());
+        this.database.taskDao().deleteTask(TASK_DEMO_ONE.getId());
         tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         assertEquals(tasks.size(), 1);
+        assertEquals("test2", tasks.get(0).getName());
     }
 
     @Test
