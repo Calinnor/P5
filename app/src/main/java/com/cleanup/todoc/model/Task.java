@@ -142,13 +142,45 @@ public class Task {
         this.id = id;
     }
 
+//    /**
+//     * Sets the unique identifier of the project associated to the task.
+//     *
+//     * @param projectId the unique identifier of the project associated to the task to set
+//     */
+//    private void setProjectId(long projectId) {
+//        this.projectId = projectId;
+//    }
+//
+//    /**
+//     * Sets the name of the task.
+//     *
+//     * @param name the name of the task to set
+//     */
+//    private void setName(@NonNull String name) {
+//        this.name = name;
+//    }
+//
+//    /**
+//     * Sets the timestamp when the task has been created.
+//     *
+//     * @param creationTimestamp the timestamp when the task has been created to set
+//     */
+//    private void setCreationTimestamp(long creationTimestamp) {
+//        this.creationTimestamp = creationTimestamp;
+//    }
+
     //-----COMPARATORS-----
     /**
      * Comparator to sort task from A to Z
      */
+    //task comparator compare two values
     public static class TaskAZComparator implements Comparator<Task> {
         @Override
         public int compare(Task left, Task right) {
+            //write comparison logic below. In this case the comparison is the mock datas of the initial app. Here the method compare name
+            //left for A, right for Z ?
+            //may implement data from database to display here i think
+            //return left.dataName.compareTo(right.dataName) or something like this instead of actuals values
             return left.name.compareTo(right.name);
         }
     }
@@ -159,6 +191,8 @@ public class Task {
     public static class TaskZAComparator implements Comparator<Task> {
         @Override
         public int compare(Task left, Task right) {
+            //write comparison logic below. In this case the comparison is the mock datas of the initial app. Here the method compare name
+            //right for Z, left for A ?
             return right.name.compareTo(left.name);
         }
     }

@@ -22,7 +22,7 @@ public class Injection {
     public static ViewModelFactory provideViewModelFactory (Context contextViewModelFactory) {
         TaskDataRepository taskDataRepository = provideTaskDataSource(contextViewModelFactory);
         Executor executor = provideExecutor();
-        return new ViewModelFactory(taskDataRepository, executor);
+        return new ViewModelFactory(/*projectDataRepository,*/ taskDataRepository, executor);
 
     }
 }

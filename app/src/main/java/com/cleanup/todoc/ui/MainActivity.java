@@ -238,14 +238,18 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 //    }
     //---4.1 then 4.2 line 146
     private void updateTasks(List<Task> tasks) {
+        //if list task == 0 nothing appears in the main screen
         if (tasks.size() == 0) {
             lblNoTasks.setVisibility(View.VISIBLE);
             recyclerViewListTasks.setVisibility(View.GONE);
         } else {
+            //if list task !=0 recyclerview appears
             lblNoTasks.setVisibility(View.GONE);
             recyclerViewListTasks.setVisibility(View.VISIBLE);
             switch (sortMethod) {
                 case ALPHABETICAL:
+                    //use collection.sort witch compare two values: tasks ->(List<Task> Tasks) with taskazcomparate method from task.
+                    //this method may implement the values to compare i suppose
                     Collections.sort(tasks, new Task.TaskAZComparator());
                     break;
                 case ALPHABETICAL_INVERTED:
