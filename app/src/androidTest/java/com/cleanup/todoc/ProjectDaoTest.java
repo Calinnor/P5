@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -56,11 +55,7 @@ public class ProjectDaoTest {
      */
 
     private static long PROJECT_ID_1 = 1;
-    private static long PROJECT_ID_2 = 2;
-    private static long PROJECT_ID_3 = 3;
     private static Project DEMO_1_PROJECT = new Project(PROJECT_ID_1, "Projet Tartampion", 0xFFEADAD1);
-    private static Project DEMO_2_PROJECT = new Project(PROJECT_ID_2, "Projet Lucidia", 0xFFB4CDBA);
-    private static Project DEMO_3_PROJECT = new Project(PROJECT_ID_3, "Projet Circus", 0xFFA3CED2);
     private static Project FALSE_DEMO_PROJECT_WITH_ID_1 = new Project(PROJECT_ID_1, "False Projet Tartampion", 0xFFB5CDBA);
 
     /**
