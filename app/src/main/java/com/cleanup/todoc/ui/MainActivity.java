@@ -52,8 +52,10 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     /**
      * List of all current tasks of the application
      */
+    //this value put a new arryList each time tasks is called. May add the database tasks value to this arraylist somewhere...
+    //try to modify value of task in updateTask like this: tasks (tasks to use) = tasks (database values)
     @NonNull
-    private final ArrayList<Task> tasks = new ArrayList<>();
+    private ArrayList<Task> tasks = new ArrayList<>();
 
     /**
      * The adapter which handles the list of tasks
@@ -120,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
         //get tasks from database
         this.getTasks();
+        //go to step 8--->244 modify tasks values(=0 because new arraylist) by (ArrayList<Task>) tasks (modify final value too)
 
         findViewById(R.id.fab_add_task).setOnClickListener(view -> showAddTaskDialog());
     }
@@ -238,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 //    }
     //---4.1 then 4.2 line 146
     private void updateTasks(List<Task> tasks) {
+        this.tasks = (ArrayList<Task>) tasks;
         //if list task == 0 nothing appears in the main screen
         if (tasks.size() == 0) {
             lblNoTasks.setVisibility(View.VISIBLE);
@@ -248,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             recyclerViewListTasks.setVisibility(View.VISIBLE);
             switch (sortMethod) {
                 case ALPHABETICAL:
-                    //use collection.sort witch compare two values: tasks ->(List<Task> Tasks) with taskazcomparate method from task.
+                    //use collections.sort witch compare two values: tasks ->(List<Task> Tasks) with taskazcomparate method from task.
                     //this method may implement the values to compare i suppose
                     Collections.sort(tasks, new Task.TaskAZComparator());
                     break;

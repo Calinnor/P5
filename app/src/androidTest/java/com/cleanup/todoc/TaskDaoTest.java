@@ -5,15 +5,12 @@ import android.arch.persistence.room.Room;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.cleanup.todoc.database.dao.ProjectDao;
 import com.cleanup.todoc.database.database.TodocDatabase;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -64,7 +61,7 @@ public class TaskDaoTest
     {
         List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         assertEquals(tasks.size(), 0);
-        this.database.projectDao().createProject(PROJECT_DEMO);
+        //this.database.projectDao().createProject(PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_DEMO_ONE);
         this.database.taskDao().insertTask(TASK_DEMO_TWO);
         tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());

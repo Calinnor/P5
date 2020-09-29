@@ -181,7 +181,8 @@ public class Task {
             //left for A, right for Z ?
             //may implement data from database to display here i think
             //return left.dataName.compareTo(right.dataName) or something like this instead of actuals values
-            return left.name.compareTo(right.name);
+           // return left.name.compareTo(right.name);
+            return left.getName().compareTo(right.getName());
         }
     }
 
@@ -193,7 +194,8 @@ public class Task {
         public int compare(Task left, Task right) {
             //write comparison logic below. In this case the comparison is the mock datas of the initial app. Here the method compare name
             //right for Z, left for A ?
-            return right.name.compareTo(left.name);
+            //return right.name.compareTo(left.name);
+            return right.getName().compareTo(left.getName());
         }
     }
 
@@ -203,7 +205,8 @@ public class Task {
     public static class TaskRecentComparator implements Comparator<Task> {
         @Override
         public int compare(Task left, Task right) {
-            return (int) (right.creationTimestamp - left.creationTimestamp);
+           // return (int) (right.creationTimestamp - left.creationTimestamp);
+            return (int) (right.getCreationTimestamp() - left.getCreationTimestamp());
         }
     }
 
@@ -213,7 +216,8 @@ public class Task {
     public static class TaskOldComparator implements Comparator<Task> {
         @Override
         public int compare(Task left, Task right) {
-            return (int) (left.creationTimestamp - right.creationTimestamp);
+            //return (int) (left.creationTimestamp - right.creationTimestamp);
+            return (int) (left.getCreationTimestamp() - right.getCreationTimestamp());
         }
     }
 }
