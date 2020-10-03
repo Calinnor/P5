@@ -10,12 +10,6 @@ import java.util.List;
 import java.util.concurrent.Executor;
 
 public class TaskViewModel extends ViewModel {
-    //declare repositories
-    //declare executor
-
-    //create constructor
-
-    //add Project and task methods
 
     private final TaskDataRepository taskDataRepository;
     private final Executor executor;

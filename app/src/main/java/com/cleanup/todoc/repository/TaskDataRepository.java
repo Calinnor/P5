@@ -8,9 +8,6 @@ import com.cleanup.todoc.model.Task;
 import java.util.List;
 
 public class TaskDataRepository {
-    //declare TaskDao
-    //create constructor
-    //implement TaskDao methods
 
     private final TaskDao taskDao;
 
@@ -39,7 +36,5 @@ public class TaskDataRepository {
     public void deleteTask(Task task) {
         this.taskDao.deleteTask(task.getId());
     }
-
-
 
 }

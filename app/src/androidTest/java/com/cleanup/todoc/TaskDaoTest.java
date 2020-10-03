@@ -61,7 +61,6 @@ public class TaskDaoTest
     {
         List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         assertEquals(tasks.size(), 0);
-        //this.database.projectDao().createProject(PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_DEMO_ONE);
         this.database.taskDao().insertTask(TASK_DEMO_TWO);
         tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
@@ -80,7 +79,6 @@ public class TaskDaoTest
     {
         List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         assertEquals(tasks.size(), 0);
-        //this.database.projectDao().createProject(PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_DEMO_ONE);
         tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         assertEquals(tasks.size(), 1);
@@ -90,7 +88,6 @@ public class TaskDaoTest
     public void tasksCanHaveSameValuesIfIdIsDifferent() throws InterruptedException {
         List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         assertEquals(tasks.size(), 0);
-       // this.database.projectDao().createProject(PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_DEMO_ONE);
         this.database.taskDao().insertTask(TASK_DEMO_THREE);
         tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
@@ -103,7 +100,6 @@ public class TaskDaoTest
     public void differentTasksCannotHaveSameId() throws InterruptedException {
         List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         assertEquals(tasks.size(), 0);
-        //this.database.projectDao().createProject(PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_ONE_FAKE);
         this.database.taskDao().insertTask(TASK_DEMO_ONE);
         tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
@@ -111,26 +107,11 @@ public class TaskDaoTest
         assertEquals("test1", tasks.get(0).getName());
     }
 
-//    @Test(expected = IndexOutOfBoundsException.class) //not here but in repository may find a 'dont find task' and not a out
-//    public void getATaskOutOfRange() throws InterruptedException
-//    {
-//        List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
-//        assertEquals(tasks.size(), 0);
-//
-//        this.database.projectDao().createProject(PROJECT_DEMO);
-//        this.database.taskDao().insertTask(TASK_DEMO_ONE);
-//
-//        tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
-//        assertEquals("test2", tasks.get(1).getName());
-//    }
-
-
     //-----deleteTask-----
 
     @Test
     public void deleteTaskDeleteACreatedTaskWithSuccess() throws InterruptedException
     {
-        //this.database.projectDao().createProject(PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_DEMO_ONE);
         LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         List<Task> tasks;
@@ -142,7 +123,6 @@ public class TaskDaoTest
     @Test
     public void insertTwoTasksAndDeleteTheFirstWithSuccess() throws InterruptedException
     {
-        //this.database.projectDao().createProject(PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_DEMO_ONE);
         this.database.taskDao().insertTask(TASK_DEMO_TWO);
         List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
@@ -156,7 +136,6 @@ public class TaskDaoTest
     @Test
     public void insertOneTaskAndDeleteAnInexistantAsNoEffect() throws InterruptedException
     {
-       // this.database.projectDao().createProject(PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_DEMO_ONE);
         LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         List<Task> tasks;
@@ -165,6 +144,4 @@ public class TaskDaoTest
         assertEquals(tasks.size(), 1);
         assertEquals("test1", tasks.get(0).getName());
     }
-
-
 }

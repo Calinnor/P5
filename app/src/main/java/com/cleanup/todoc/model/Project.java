@@ -47,8 +47,6 @@ public class Project {
     }
 
     /**
-     * Returns all the projects of the application.
-     *
      * @return all the projects of the application
      */
     @NonNull
@@ -77,8 +75,6 @@ public class Project {
     }
 
     /**
-     * Returns the unique identifier of the project.
-     *
      * @return the unique identifier of the project
      */
     public long getId() {
@@ -86,8 +82,6 @@ public class Project {
     }
 
     /**
-     * Returns the name of the project.
-     *
      * @return the name of the project
      */
     @NonNull
@@ -96,8 +90,6 @@ public class Project {
     }
 
     /**
-     * Returns the hex (ARGB) code of the color associated to the project.
-     *
      * @return the hex (ARGB) code of the color associated to the project
      */
     @ColorInt

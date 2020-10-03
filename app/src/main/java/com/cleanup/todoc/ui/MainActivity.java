@@ -38,11 +38,7 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity implements TasksAdapter.DeleteTaskListener {
 
-    //-----for data-----
-    //---1---
     private TaskViewModel taskViewModel;
-    //----> go to step 2 line 332
-
 
     /**
      * List of all projects available in the application
@@ -52,9 +48,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     /**
      * List of all current tasks of the application
      */
-    //this value put a new arrayList each time tasks is called. May add the database tasks value to this arraylist somewhere...
-    //try to modify value of task in updateTask like this: tasks (tasks to use) = tasks (database values)
-    //go to step 8--->245 modify tasks values(=0 because new arraylist) by (ArrayList<Task>) tasks (modify final value too)
     @NonNull
     private ArrayList<Task> tasks = new ArrayList<>();
 
@@ -90,13 +83,11 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     /**
      * The RecyclerView which displays the list of tasks
      */
-    // Suppress warning is safe because variable is initialized in onCreate
     private RecyclerView recyclerViewListTasks;
 
     /**
      * The TextView displaying the empty state
      */
-    // Suppress warning is safe because variable is initialized in onCreate
     private TextView lblNoTasks;
 
     @Override
@@ -108,23 +99,12 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         recyclerViewListTasks = findViewById(R.id.list_tasks);
         lblNoTasks = findViewById(R.id.lbl_no_task);
 
-        /*
-        thoses 2 lines were first implementation. Put them in configRecyclerView method line 373
-        recyclerViewListTasks.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerViewListTasks.setAdapter(adapter);
-        */
-
         /**
-         * ---7---
          * configure ViewModel, RecyclerView and get tasks from database
          */
         this.configureViewModel();
         this.configureRecyclerView();
-
-        //get tasks from database
         this.getTasks();
-        //go to step 8--->244 modify tasks values(=0 because new arraylist) by (ArrayList<Task>) tasks (modify final value too)
-
         findViewById(R.id.fab_add_task).setOnClickListener(view -> showAddTaskDialog());
     }
 
@@ -148,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             sortMethod = SortMethod.RECENT_FIRST;
         }
 
-        //---4.2---then 4.3 line 156
         updateTasks(tasks);
 
         return super.onOptionsItemSelected(item);
@@ -156,9 +135,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     @Override
     public void onDeleteTask(Task task) {
-        //tasks.remove(task); ---6.1---> go to 6.2 line 225
         this.deleteTask(task);
-        //---4.3---then 4.4 line 227
         updateTasks(tasks);
     }
 
@@ -186,9 +163,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             }
             // If both project and name of the task have been set
             else if (taskProject != null) {
-                // TODO: Replace this by id of persisted task
-                //long id = (long) (Math.random() * 50000);
-
                 Task task = new Task(taskProject.getId(),taskName,new Date().getTime()
                 );
 
@@ -227,36 +201,23 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * @param task the task to be added to the list
      */
     private void addTask(@NonNull Task task) {
-        //tasks.add(task); ---6.2---> go to step 7 line 115 (onCreate)
         this.insertTask(task);
-        //---4.4---modify updateTasks() with param tasks: updateTasks(tasks) ---> go to step 5 line 368
         updateTasks(tasks);
     }
 
     /**
      * Updates the list of tasks in the UI
      */
-
-//    below method created by ide because need a List<Task> in argument
-//    private void updateTasks(List<Task> tasks) {
-//    }
-    //---4.1 then 4.2 line 146
     private void updateTasks(List<Task> tasks) {
-        //if database contains values or not, may enter values before tasks.size condition. thx to charlotte ;)
-        //tasks define as ArrayList so need to cast
         this.tasks = (ArrayList<Task>) tasks;
-        //if list task == 0 (database empty) nothing appears in the main screen
         if (tasks.size() == 0) {
             lblNoTasks.setVisibility(View.VISIBLE);
             recyclerViewListTasks.setVisibility(View.GONE);
         } else {
-            //if list task !=0 (database not empty) recyclerview appears
             lblNoTasks.setVisibility(View.GONE);
             recyclerViewListTasks.setVisibility(View.VISIBLE);
             switch (sortMethod) {
                 case ALPHABETICAL:
-                    //use collections.sort witch compare two values: tasks ->(List<Task> Tasks) with taskazcomparate method from task.
-                    //this method may implement the values to compare i suppose
                     Collections.sort(tasks, new Task.TaskAZComparator());
                     break;
                 case ALPHABETICAL_INVERTED:
@@ -273,11 +234,9 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             adapter.updateTasks(tasks);
         }
     }
-    //---> go to 5 line 381
 
     /**
      * Returns the dialog allowing the user to create a new task.
-     *
      * @return the dialog allowing the user to create a new task
      */
     @NonNull
@@ -342,7 +301,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         NONE
     }
 
-    //---2---
     /**
      * configure viewmodel
      */
@@ -350,11 +308,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(this);
         this.taskViewModel = ViewModelProviders.of(this, mViewModelFactory).get(TaskViewModel.class);
     }
-    //----> go to step 3 line 343
 
-
-    //---3---
-    //---implement methods for task---
     /**
      * create a task
      */
@@ -367,7 +321,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      */
     private void getTasks(){
         this.taskViewModel.getTasks().observe(this, this::updateTasks);
-        //---> go to 4---may then modify updateTasks on line 238 then 146, 156, 227 because getTasks have a List<Task>> in argument
     }
 
     /**
@@ -377,7 +330,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         this.taskViewModel.deleteTask(task);
     }
 
-    //---5---
     /**
      * configure recyclerview
      */
@@ -385,5 +337,4 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         recyclerViewListTasks.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerViewListTasks.setAdapter(adapter);
     }
-    //---> go to step 6: may now update delete and add task methods with data values (replacing mock values) on lines 154, 225
 }

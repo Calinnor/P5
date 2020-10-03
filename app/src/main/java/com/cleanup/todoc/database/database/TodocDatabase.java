@@ -9,21 +9,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-//import com.cleanup.todoc.database.dao.ProjectDao;
 import com.cleanup.todoc.database.dao.TaskDao;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
 @Database(entities = {Project.class, Task.class}, version = 1, exportSchema = false)
 public abstract class TodocDatabase extends RoomDatabase {
-    //singleton must be private: no "new Todoc" and static
     private static volatile TodocDatabase INSTANCE;
-
-    //daos: beware dao are interface, they need to have param "()"...so it's why abstract !
-    //allows to use daos methods by database
-    //public abstract ProjectDao projectDao();
     public abstract TaskDao taskDao();
-    //public abstract ProjectDao projectDao();
 
     //TodocDatabase unique instance
     public static TodocDatabase getInstance(Context context) {
@@ -41,7 +34,6 @@ public abstract class TodocDatabase extends RoomDatabase {
     }
 
     /**
-     * Returns a callback to add the projects in the database, like in the leçon
      * data coming from Project.class
      * @return a callback to add the projects in the database
      */

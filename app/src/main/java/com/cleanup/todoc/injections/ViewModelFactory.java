@@ -14,15 +14,11 @@ public class ViewModelFactory implements ViewModelProvider.Factory{
     private final TaskDataRepository taskDataRepository;
     private  final Executor executor;
 
-    //Create constructor
     public ViewModelFactory(TaskDataRepository taskDataRepository, Executor executor) {
-        //declare Repositories
-        //Declare Executor
         this.taskDataRepository = taskDataRepository;
         this.executor = executor;
     }
 
-    //implement Factory method
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
