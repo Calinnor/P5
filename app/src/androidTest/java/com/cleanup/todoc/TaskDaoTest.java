@@ -76,14 +76,12 @@ public class TaskDaoTest
     //-----insertTask-----
 
     @Test
-    public void insertOneTaskWithSuccess() throws InterruptedException
+    public void insertTaskAddOneTaskWithSuccess() throws InterruptedException
     {
         List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         assertEquals(tasks.size(), 0);
-
-        this.database.projectDao().createProject(PROJECT_DEMO);
+        //this.database.projectDao().createProject(PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_DEMO_ONE);
-
         tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         assertEquals(tasks.size(), 1);
     }
@@ -92,7 +90,7 @@ public class TaskDaoTest
     public void tasksCanHaveSameValuesIfIdIsDifferent() throws InterruptedException {
         List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         assertEquals(tasks.size(), 0);
-        this.database.projectDao().createProject(PROJECT_DEMO);
+       // this.database.projectDao().createProject(PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_DEMO_ONE);
         this.database.taskDao().insertTask(TASK_DEMO_THREE);
         tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
@@ -105,7 +103,7 @@ public class TaskDaoTest
     public void differentTasksCannotHaveSameId() throws InterruptedException {
         List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         assertEquals(tasks.size(), 0);
-        this.database.projectDao().createProject(PROJECT_DEMO);
+        //this.database.projectDao().createProject(PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_ONE_FAKE);
         this.database.taskDao().insertTask(TASK_DEMO_ONE);
         tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
@@ -130,9 +128,9 @@ public class TaskDaoTest
     //-----deleteTask-----
 
     @Test
-    public void deleteTaskWithSuccess() throws InterruptedException
+    public void deleteTaskDeleteACreatedTaskWithSuccess() throws InterruptedException
     {
-        this.database.projectDao().createProject(PROJECT_DEMO);
+        //this.database.projectDao().createProject(PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_DEMO_ONE);
         LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         List<Task> tasks;
@@ -142,9 +140,9 @@ public class TaskDaoTest
     }
 
     @Test
-    public void insertTwoTasksAndDeleteTheSecondWithSuccess() throws InterruptedException
+    public void insertTwoTasksAndDeleteTheFirstWithSuccess() throws InterruptedException
     {
-        this.database.projectDao().createProject(PROJECT_DEMO);
+        //this.database.projectDao().createProject(PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_DEMO_ONE);
         this.database.taskDao().insertTask(TASK_DEMO_TWO);
         List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
@@ -158,7 +156,7 @@ public class TaskDaoTest
     @Test
     public void insertOneTaskAndDeleteAnInexistantAsNoEffect() throws InterruptedException
     {
-        this.database.projectDao().createProject(PROJECT_DEMO);
+       // this.database.projectDao().createProject(PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_DEMO_ONE);
         LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
         List<Task> tasks;

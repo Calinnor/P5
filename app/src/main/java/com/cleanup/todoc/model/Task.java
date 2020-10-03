@@ -16,10 +16,11 @@ import java.util.Comparator;
  *
  * @author Gaëtan HERFRAY
  */
-@Entity(foreignKeys = @ForeignKey (
-        entity = Project.class,
-        parentColumns = "id",
-        childColumns = "projectId"))
+//@Entity(foreignKeys = @ForeignKey (
+//        entity = Project.class,
+//        parentColumns = "id",
+//        childColumns = "projectId"))
+    @Entity
 public class Task {
     /**
      * The unique identifier of the task
@@ -181,8 +182,8 @@ public class Task {
             //left for A, right for Z ?
             //may implement data from database to display here i think
             //return left.dataName.compareTo(right.dataName) or something like this instead of actuals values
-           // return left.name.compareTo(right.name);
-            return left.getName().compareTo(right.getName());
+            return left.name.compareTo(right.name);
+            //return left.getName().compareTo(right.getName());
         }
     }
 

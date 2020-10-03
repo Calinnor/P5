@@ -52,8 +52,9 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     /**
      * List of all current tasks of the application
      */
-    //this value put a new arryList each time tasks is called. May add the database tasks value to this arraylist somewhere...
+    //this value put a new arrayList each time tasks is called. May add the database tasks value to this arraylist somewhere...
     //try to modify value of task in updateTask like this: tasks (tasks to use) = tasks (database values)
+    //go to step 8--->245 modify tasks values(=0 because new arraylist) by (ArrayList<Task>) tasks (modify final value too)
     @NonNull
     private ArrayList<Task> tasks = new ArrayList<>();
 
@@ -241,13 +242,15 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 //    }
     //---4.1 then 4.2 line 146
     private void updateTasks(List<Task> tasks) {
+        //if database contains values or not, may enter values before tasks.size condition. thx to charlotte ;)
+        //tasks define as ArrayList so need to cast
         this.tasks = (ArrayList<Task>) tasks;
-        //if list task == 0 nothing appears in the main screen
+        //if list task == 0 (database empty) nothing appears in the main screen
         if (tasks.size() == 0) {
             lblNoTasks.setVisibility(View.VISIBLE);
             recyclerViewListTasks.setVisibility(View.GONE);
         } else {
-            //if list task !=0 recyclerview appears
+            //if list task !=0 (database not empty) recyclerview appears
             lblNoTasks.setVisibility(View.GONE);
             recyclerViewListTasks.setVisibility(View.VISIBLE);
             switch (sortMethod) {
