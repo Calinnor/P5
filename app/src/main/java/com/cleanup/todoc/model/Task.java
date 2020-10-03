@@ -59,20 +59,11 @@ public class Task {
         this.creationTimestamp = creationTimestamp;
     }
 
-    //TODO determine what constructor is the best
-
     public Task(long projectId, @NonNull String name, long creationTimestamp) {
         this.projectId = projectId;
         this.name = name;
         this.creationTimestamp = creationTimestamp;
     }
-
-//    public Task(long projectId, @NonNull String name, long creationTimestamp) {
-//        this.setProjectId(projectId);
-//        this.setName(name);
-//        this.setCreationTimestamp(creationTimestamp);
-//    }
-
 
     //----GETTERS---
     /**
