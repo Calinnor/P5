@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
+import com.cleanup.todoc.repository.ProjectDataRepository;
 import com.cleanup.todoc.repository.TaskDataRepository;
 import com.cleanup.todoc.ui.viewModel.TaskViewModel;
 
@@ -11,10 +12,12 @@ import java.util.concurrent.Executor;
 
 public class ViewModelFactory implements ViewModelProvider.Factory{
 
+    private final ProjectDataRepository projectDataRepository;
     private final TaskDataRepository taskDataRepository;
     private  final Executor executor;
 
-    public ViewModelFactory(TaskDataRepository taskDataRepository, Executor executor) {
+    public ViewModelFactory(ProjectDataRepository projectDataRepository, TaskDataRepository taskDataRepository, Executor executor) {
+        this.projectDataRepository = projectDataRepository;
         this.taskDataRepository = taskDataRepository;
         this.executor = executor;
     }
@@ -25,7 +28,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory{
         if(modelClass.isAssignableFrom(TaskViewModel.class))
         {
             return (T) new TaskViewModel
-                    (this.taskDataRepository, this.executor);
+                    (this.projectDataRepository ,this.taskDataRepository, this.executor);
         }
         throw new IllegalArgumentException("Unkown ViewModel class");
     }

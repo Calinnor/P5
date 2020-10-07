@@ -26,7 +26,6 @@ public class LiveDataTestUtils {
         };
         liveData.observeForever(observer);
         latch.await(2, TimeUnit.SECONDS);
-        //noinspection unchecked
         return (T) data[0];
     }
 }

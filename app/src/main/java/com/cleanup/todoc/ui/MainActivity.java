@@ -99,9 +99,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         recyclerViewListTasks = findViewById(R.id.list_tasks);
         lblNoTasks = findViewById(R.id.lbl_no_task);
 
-        /**
-         * configure ViewModel, RecyclerView and get tasks from database
-         */
         this.configureViewModel();
         this.configureRecyclerView();
         this.getTasks();

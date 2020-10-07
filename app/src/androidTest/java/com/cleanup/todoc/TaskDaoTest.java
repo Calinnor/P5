@@ -48,6 +48,53 @@ public class TaskDaoTest
         this.database.close();
     }
 
+    //-----insertTask-----
+
+    @Test
+    public void insertATaskWithSuccess() throws InterruptedException
+    {
+        List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
+        assertEquals(tasks.size(), 0);
+        this.database.taskDao().insertTask(TASK_DEMO_ONE);
+        tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
+        assertEquals(tasks.size(), 1);
+    }
+
+    @Test
+    public void insertThreeTasksWithSuccess() throws InterruptedException
+    {
+        List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
+        assertEquals(tasks.size(), 0);
+        this.database.taskDao().insertTask(TASK_DEMO_ONE);
+        this.database.taskDao().insertTask(TASK_DEMO_TWO);
+        this.database.taskDao().insertTask(TASK_DEMO_THREE);
+        tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
+        assertEquals(tasks.size(), 3);
+    }
+
+    @Test
+    public void differentTasksCannotHaveSameId() throws InterruptedException {
+        List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
+        assertEquals(tasks.size(), 0);
+        this.database.taskDao().insertTask(TASK_ONE_FAKE);
+        this.database.taskDao().insertTask(TASK_DEMO_ONE);
+        tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
+        assertEquals(tasks.size(), 1);
+        assertEquals("test1", tasks.get(0).getName());
+    }
+
+    @Test
+    public void tasksCanHaveSameValuesIfIdIsDifferent() throws InterruptedException {
+        List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
+        assertEquals(tasks.size(), 0);
+        this.database.taskDao().insertTask(TASK_DEMO_ONE);
+        this.database.taskDao().insertTask(TASK_DEMO_THREE);
+        tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
+        assertEquals(tasks.size(), 2);
+        assertEquals(tasks.get(0).getName(), tasks.get(1).getName());
+        assertNotEquals(tasks.get(0).getId(), tasks.get(1).getId());
+    }
+
     //-----getTasks-----
     @Test
     public void getTasksWhenNoTaskInsertedShouldReturnIsEmpty() throws InterruptedException
@@ -70,42 +117,10 @@ public class TaskDaoTest
         assertEquals("test2", tasks.get(1).getName());
         assertTrue(tasks.get(1).getCreationTimestamp() != tasks.get(0).getCreationTimestamp() && tasks.get(1).getCreationTimestamp() == 100);
         assertTrue(tasks.get(0).getCreationTimestamp() != tasks.get(1).getCreationTimestamp() && tasks.get(0).getCreationTimestamp() == 10);
+        assertEquals(1, tasks.get(0).getId());
+        assertEquals(2,tasks.get(1).getId());
     }
 
-    //-----insertTask-----
-
-    @Test
-    public void insertTaskAddOneTaskWithSuccess() throws InterruptedException
-    {
-        List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
-        assertEquals(tasks.size(), 0);
-        this.database.taskDao().insertTask(TASK_DEMO_ONE);
-        tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
-        assertEquals(tasks.size(), 1);
-    }
-
-    @Test
-    public void tasksCanHaveSameValuesIfIdIsDifferent() throws InterruptedException {
-        List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
-        assertEquals(tasks.size(), 0);
-        this.database.taskDao().insertTask(TASK_DEMO_ONE);
-        this.database.taskDao().insertTask(TASK_DEMO_THREE);
-        tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
-        assertEquals(tasks.size(), 2);
-        assertEquals(tasks.get(0).getName(), tasks.get(1).getName());
-        assertNotEquals(tasks.get(0).getId(), tasks.get(1).getId());
-    }
-
-    @Test
-    public void differentTasksCannotHaveSameId() throws InterruptedException {
-        List<Task> tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
-        assertEquals(tasks.size(), 0);
-        this.database.taskDao().insertTask(TASK_ONE_FAKE);
-        this.database.taskDao().insertTask(TASK_DEMO_ONE);
-        tasks = LiveDataTestUtils.getValue(this.database.taskDao().getTasks());
-        assertEquals(tasks.size(), 1);
-        assertEquals("test1", tasks.get(0).getName());
-    }
 
     //-----deleteTask-----
 
