@@ -3,9 +3,7 @@
 ----------
 Ce dépôt contient une mini-application pour le P5 du parcours **Grande École du Numérique**.
 
-### Etude de cas   
-Base de travail réalisée by Gaëtan HERFRAY (OpenClassroom)
-----------------------
+### Etude de cas  
 
 ### Exercice réalisé
 Insertion d'une couche d'abstraction pour l'implémentation d'une base de données
