@@ -1,7 +1,12 @@
 ## _OpenClassrooms_ P5
 [![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/built-for-android.svg)](https://forthebadge.com)
 ----------
-Ce dépôt contient une mini-application pour le P5 du parcours **Grande École du Numérique**. 
+Ce dépôt contient une mini-application pour le P5 du parcours **Grande École du Numérique**.
+### Etude de cas
+
+### Travail réalisé
+Insertion d'une couche d'abstraction pour l'implémentation d'une base de données
+
 ### Utilisation de l'ORM ROOM
 La base de données est établie selon Room
 
