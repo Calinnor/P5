@@ -4,8 +4,10 @@
 Ce dépôt contient une mini-application pour le P5 du parcours **Grande École du Numérique**.
 
 ### Etude de cas  
+Travail de base fourni par Gaëtan HERFRAY (OpenClassroom)
 
 ### Exercice réalisé
+Insertion d'une chouche d'abstraction afin d'implémenter une base de données
 
 ### Utilisation de l'ORM ROOM
 
