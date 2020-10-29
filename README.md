@@ -6,12 +6,8 @@ Ce dépôt contient une mini-application pour le P5 du parcours **Grande École 
 ### Etude de cas  
 
 ### Exercice réalisé
-Insertion d'une couche d'abstraction pour l'implémentation d'une base de données
---
 
 ### Utilisation de l'ORM ROOM
-La base de données est établie selon Room
---
 
 ### Installation
 * Cloner la branche master : copier le lien puis aller sur votre ide  
